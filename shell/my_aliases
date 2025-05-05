@@ -1,0 +1,10 @@
+alias ll='ls -lha --color'
+alias tmux= 'tmux -2'
+
+
+# tab autpcompletion
+set autoexpand
+
+# history search
+bindkey -k up history-search-backward
+bindkey -k down history-search-forward

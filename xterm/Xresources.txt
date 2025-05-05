@@ -1,0 +1,15 @@
+xterm*baskarrowKey  : false
+!xterm*faceName      : Hack
+xterm*faceSize      : 10
+xterm*renderFont    : true
+xterm*background    : #002b36
+xterm*foreground    : #93a1a1
+xterm*scrollBar     : true
+xterm*rightScrollBar: true
+Xft.autohint        : 0
+Xft.lcdfilter       : lcddefault
+Xft.hintstyle       : hintfull
+Xft.hinting         : 1
+Xft.antialias       : 1
+Xft.rgba            : rgb
+

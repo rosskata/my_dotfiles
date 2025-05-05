@@ -1,0 +1,206 @@
+set nocompatible
+
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/dotfiles/vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'mbbill/undotree'
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'prabirshrestha/async.vim'
+Plugin 'Yggdroot/indentLine'
+Plugin 'scrooloose/NERDTree'
+Plugin 'godlygeek/tabular'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'dense-analysis/ale'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"------------------------------
+" basic config
+"------------------------------
+set nowrap
+set linebreak
+set nolist
+set textwidth=0
+set wrapmargin=0
+set tabstop=2                  " set tabs when reading = 2 spaces
+set autoindent                 " set smart-ish indentation
+set sw=2
+set softtabstop=2              " set the number of spaces to insert when tab is pressed
+set expandtab                  " set tabs to spaces (company policy)
+set number                     " show line numbers
+set showcmd                    " show command in bottom bar
+set cursorline                 " hilight current line
+set wildmenu                   " visual autocomplete for command menu
+set lazyredraw                 " redraw only when needed
+set showmatch                  " hilight matching braces
+set incsearch                  " set incremental search on (search as characters are entered)
+set hlsearch                   " hilight matches
+set vb                         " turn on the 'visual bell' - which is much quieter than the 'audio blink'
+set ruler                      " show the cursor position all the time
+set laststatus=2               " make the last line where the status is two lines deep so you can see status always
+set backspace=indent,eol,start " make that backspace key work the way it should
+set smartindent
+set smartcase
+set noswapfile
+set undodir=~/.vim/undodir
+set undofile
+set guioptions-=T
+set lcs=tab:⇥·,trail:·,eol:¶,extends:>,precedes:<
+set mouse=i
+set autoread
+set incsearch
+set magic
+set t_Co=256
+let base16colorspace=256
+set t_BE= " Prevent copy/paste problems after exiting vim
+
+syntax on
+
+" set the color scheme
+colorscheme PaperColor
+" make colors dark-background friendly
+set background=dark
+"Set font fot Gvim
+set guifont=Hack
+
+"------------------------------
+" Functions
+"------------------------------
+" Removes trailing spaces using F2
+function TrimWhiteSpace()
+  %s/\s*$//
+  ''
+endfunction
+
+"splits long strings into strings of 4 characters
+function SplitStringToFourChars()
+  %s/\(....\)/\1 /g
+  ''
+endfunction
+
+"------------------------------
+" Auto commands
+"------------------------------
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+  "Set UTF-8 as the default encoding for commit messages
+  autocmd BufReadPre COMMIT_EDITMSG,MERGE_MSG,git-rebase-todo setlocal fileencodings=utf-8
+  "Remember the positions in files with some git-specific exceptions"
+  autocmd BufReadPost *  if line("'\"") > 0 && line("'\"") <= line("$")
+  \                                           && expand("%") !~ "COMMIT_EDITMSG"
+  \                                           && expand("%") !~ "MERGE_EDITMSG"
+  \                                           && expand("%") !~ "ADD_EDIT.patch"
+  \                                           && expand("%") !~ "addp-hunk-edit.diff"
+  \                                           && expand("%") !~ "git-rebase-todo" | exe "normal g`\"" | endif
+
+  autocmd BufNewFile,BufRead *.patch set filetype=diff
+  autocmd BufNewFile,BufRead *.diff set filetype=diff
+  autocmd Syntax diff highlight WhiteSpaceEOL ctermbg=red | match WhiteSpaceEOL /\(^+.*\)\@<=\s\+$/
+  autocmd Syntax gitcommit setlocal textwidth=74
+endif
+
+autocmd FileWritePre * call TrimWhiteSpace()
+autocmd FileAppendPre * call TrimWhiteSpace()
+autocmd FilterWritePre * call TrimWhiteSpace()
+autocmd BufWritePre * call TrimWhiteSpace()
+
+autocmd BufNewFile,BufRead *.do set syntax=tcl
+autocmd BufNewFile,BufRead *.tcons set syntax=sdc
+autocmd BufNewFile,BufRead *.f set syntax=tcl
+autocmd BufNewFile,BufRead *.f set filetype=tcl
+autocmd BufNewFile,BufRead *.xdc set syntax=sdc
+autocmd BufNewFile,BufRead *.ttcl set syntax=tcl
+
+" treat .sv, .vh .svh and .sva files as verilog
+au BufNewFile,BufReadPost *.sv set syntax=verilog
+au BufNewFile,BufReadPost *.vh set syntax=verilog
+au BufNewFile,BufReadPost *.svh set syntax=verilog
+au BufNewFile,BufReadPost *.sva set syntax=verilog
+
+" apply .log syntax to log files
+au BufNewFile,BufReadPost *.log set syntax=log
+
+"------------------------------
+" Map shortcuts
+"------------------------------
+map <C-f> :NERDTreeToggle<CR>
+map! <C-f> :NERDTreeToggle<CR>
+
+map <F2> :call TrimWhiteSpace()<CR>
+map! <F2> :call TrimWhiteSpace()<CR>
+map <F4> :!p4 edit -t text %<CR>
+map! <F4> :!p4 edit -t text %<CR>
+map <F5> :!p4 submit %<CR>
+map! <F5> :!p4 submit %<CR>
+map <F8> :call SplitStringToFourChars()<CR>
+map! <F8> :call SplitStringToFourChars()<CR>
+" map f12 to invert background color - useful to change themes between light/dark
+map <F12> :let &background = (&background == "dark"? "light" : "dark") <CR>
+map! <F12> :let &background = (&background == "dark"? "light" : "dark") <CR>
+
+"------------------------------
+" Plugins config
+"------------------------------
+" Indentline setup
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 'nc'
+let g:indentLine_char = '·'
+let g:indentLine_char = '┊'
+let g:indentLine_faster = 1
+let g:indentLine_color_term =239
+
+"Airline setup
+" enable the buffers list
+let g:airline#extensions#tabline#enabled = 1
+" show just filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+" Set Airline color theme
+let g:airline_theme='papercolor'
+let g:airline_powerline_fonts = 1
+
+" Nerdcommenter config
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDToggleCheckAllLines = 1
+
+" Setup hdl_checker
+let g:LanguageClient_serverCommands = {
+      \   'vhdl': ['~/.local/bin/hdl_checker', '--lsp'],
+      \   'verilog': ['~/.local/bin/hdl_checker', '--lsp'],
+      \   'systemverilog': ['~/.local/bin/hdl_checker', '--lsp'],
+      \}
+
+" make the netrw builtin file explorer useable
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 25
+let g:netrw_altv = 1
+
+" Set navigation betwen ALE errors
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+set statusline+=%#warningmsg#
+set statusline+=%*

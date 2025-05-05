@@ -1,0 +1,94 @@
+# Set a default editor. If you don't like the default editor you are
+# getting, uncomment the next line. You may also want to change from
+# "vi" to some other editor while you're at it.
+#
+setenv EDITOR vim
+
+#
+# Pick a default pager, "less" is much nicer than "more", if you don't
+# like the choice, change, or comment out, the next line
+#
+setenv PAGER less
+
+#
+# Set other environment variables you need here. Do not attempt to set
+#
+# the DISPLAY environment in any initialization files. If you need
+# to connect to remote systems and send program windows back to
+# your screen, try using "ssh" instead of "rlogin", "rsh", or "telnet".
+# "ssh" takes care of the DISPLAY setting quite nicely.
+#
+set TERM=xterm-256color
+#
+# Check if shell is interactive. Do not put commands that echo
+# anything above this check. Do not put commands that modify
+# or set the prompt above this check.
+#
+if ( -x /bin/tty ) then
+          /bin/tty -s
+                  if ( $status != 0 ) exit
+                    endif
+
+#
+# Set the prompt
+#
+# If you are using the "tcsh", you should be under Solaris 8, then
+# pick one of the following formats. You can make your own format if
+# you like, to find out how do a "man tcsh" and search for "%m". You
+# will be in the middle of the prompt setting section.
+#
+# prompt format: "[host] 5 /cur/directory> "
+# set prompt =  "[%m] %! %/> "
+#
+# prompt format: "user@host /cur/directory> " with $HOME replaced by "~"
+# set prompt =  "%n@%m %~/> "
+#
+# prompt format: "user@host 5 /cur/directory> " with $HOME replaced by "~"
+# set prompt =  "%n@%m %! %~/> "
+#
+# If you are not using tcsh, then the following prompt will work.
+# We do not have examples of the "mess" required to put the
+# current directory in the prompt with standard csh shells, if you
+# want that, remind your sysadmin staff that you need to be
+# switched to the tcsh.
+#
+# prompt format: "host 5> "
+#set prompt =  "`hostname` \!> "
+#set prompt =  "`/bin/pwd` \!> "
+#set prompt = "`pwd` \!> "
+#
+#
+
+# add some more color (it is the 21st century!
+set TERM=xterm-256color
+set LANG=en_US.UTF-8
+set LC_ALL=en_US.UTF-8
+# Colors!
+set     red="%{\033[1;31m%}"
+set   green="%{\033[0;32m%}"
+set  yellow="%{\033[1;33m%}"
+set    blue="%{\033[1;34m%}"
+set magenta="%{\033[1;35m%}"
+set    cyan="%{\033[1;36m%}"
+set   white="%{\033[0;37m%}"
+set   black="%{\033[0;30m%}"
+set    grey="%{\033[0;240m%}"
+set     end="%{\033[0m%}" # This is needed at the end... :(
+
+set prompt="\n${blue}[${grey}%n${blue}@${magenta}%m${blue}][${grey}%~${blue}]\n[${blue}%P${blue}]${green}:${blue}[${green}%#${blue}]${grey}>${end}"
+#set prompt="[${green}%n${blue}@%m ${white}%~ ]${end} "
+
+#setenv LS_COLORS 'no=240;38;5;0:rs=0::ln=01;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:ex=01;38;5;28:*.cmd=00;38;5;82:*.exe=00;38;5;82:*.com=00;38;5;82:*.btm=00;38;5;82:*.bat=00;38;5;82:*.jpg=00;38;5;37:*.jpeg=00;38;5;37:*.png=00;38;5;37:*.gif=00;38;5;37:*.bmp=00;38;5;37:*.xbm=00;38;5;37:*.xpm=00;38;5;37:*.tif=00;38;5;37:*.tiff=00;38;5;37:*.pdf=00;38;5;98:*.odf=00;38;5;98:*.doc=00;38;5;98:*.ppt=00;38;5;98:*.pptx=00;38;5;98:*.db=00;38;5;98:*.aac=00;38;5;208:*.au=00;38;5;208:*.flac=00;38;5;208:*.mid=00;38;5;208:*.midi=00;38;5;208:*.mka=00;38;5;208:*.mp3=00;38;5;208:*.mpc=00;38;5;208:*.ogg=00;38;5;208:*.ra=00;38;5;208:*.wav=00;38;5;208:*.m4a=00;38;5;208:*.axa=00;38;5;208:*.oga=00;38;5;208:*.spx=00;38;5;208:*.xspf=00;38;5;208:*.mov=01;38;5;208:*.mpg=01;38;5;208:*.mpeg=01;38;5;208:*.3gp=01;38;5;208:*.m2v=01;38;5;208:*.mkv=01;38;5;208:*.ogm=01;38;5;208:*.mp4=01;38;5;208:*.m4v=01;38;5;208:*.mp4v=01;38;5;208:*.vob=01;38;5;208:*.qt=01;38;5;208:*.nuv=01;38;5;208:*.wmv=01;38;5;208:*.asf=01;38;5;208:*.rm=01;38;5;208:*.rmvb=01;38;5;208:*.flc=01;38;5;208:*.avi=01;38;5;208:*.fli=01;38;5;208:*.flv=01;38;5;208:*.gl=01;38;5;208:*.m2ts=01;38;5;208:*.divx=01;38;5;208:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:'
+setenv LS_COLORS 'di=01;38;5;198'
+source ~/.aliases
+
+
+# Clean up after ourselves...
+unset red green yellow blue magenta cyan white black grey end
+xrdb -merge ~/.Xresources
+
+# check if .p4enviro exists
+if ( -d ~/.p4enviro ) then
+  echo "Deleting .p4enviro to enable Perforce login"
+  rm -fr ~/.p4enviro
+endif

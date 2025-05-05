@@ -1,0 +1,10 @@
+alias ll='ls -lha --color'
+
+# tab autpcompletion
+set autoexpand
+
+# history search
+bind '"\eOA": history-search-backward'
+bind '"\e[A": history-search-backward'
+bind '"\eOB": history-search-forward'
+bind '"\e[B": history-search-forward'
